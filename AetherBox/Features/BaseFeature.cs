@@ -23,6 +23,7 @@ using Dalamud.Plugin.Services;
 using EasyCombat.UI.Helpers;
 using ECommons;
 using ECommons.Automation;
+using ECommons.Automation.LegacyTaskManager;
 using ECommons.DalamudServices;
 using ECommons.Throttlers;
 using FFXIVClientStructs.FFXIV.Client.Game;
@@ -44,7 +45,7 @@ public abstract class BaseFeature
 
     protected global::AetherBox.AetherBox P;
 
-    protected DalamudPluginInterface Pi;
+    protected IDalamudPluginInterface Pi;
 
     protected Configuration config;
 
@@ -104,7 +105,7 @@ public abstract class BaseFeature
     {
     }
 
-    public void InterfaceSetup(global::AetherBox.AetherBox plugin, DalamudPluginInterface pluginInterface, Configuration config, FeatureProvider fp)
+    public void InterfaceSetup(global::AetherBox.AetherBox plugin, IDalamudPluginInterface pluginInterface, Configuration config, FeatureProvider fp)
     {
         P = plugin;
         Pi = pluginInterface;
@@ -155,7 +156,7 @@ public abstract class BaseFeature
         try
         {
             string configFile;
-            configFile = Path.Combine(global::AetherBox.AetherBox.pi.GetPluginConfigDirectory(), key + ".json");
+            configFile = Path.Combine(Pi.AssemblyLocation.DirectoryName, key + ".json");
             if (!File.Exists(configFile))
             {
                 return null;
@@ -179,7 +180,7 @@ public abstract class BaseFeature
         try
         {
             string path;
-            path = Path.Combine(global::AetherBox.AetherBox.pi.GetPluginConfigDirectory(), key + ".json");
+            path = Path.Combine(Pi.AssemblyLocation.DirectoryName, key + ".json");
             string jsonString;
             jsonString = JsonConvert.SerializeObject(config, Formatting.Indented);
             File.WriteAllText(path, jsonString);
@@ -425,7 +426,7 @@ public abstract class BaseFeature
         }
         try
         {
-            return addon->GetNodeById(10u)->IsVisible;
+            return addon->GetNodeById(10u)->IsVisible();
         }
         catch (Exception e)
         {
@@ -456,7 +457,7 @@ public abstract class BaseFeature
             inv = c->GetInventoryContainer(x);
             for (int i = 0; i < inv->Size; i++)
             {
-                if (inv->Items[i].ItemID == 0)
+                if (inv->Items[i].ItemId == 0)
                 {
                     slots++;
                 }

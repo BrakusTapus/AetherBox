@@ -16,6 +16,7 @@ using Dalamud.Plugin.Services;
 using EasyCombat.UI.Helpers;
 using ECommons;
 using ECommons.Automation;
+using ECommons.Automation.LegacyTaskManager;
 using ECommons.DalamudServices;
 using ECommons.ImGuiMethods;
 using FFXIVClientStructs.FFXIV.Client.Graphics.Kernel;
@@ -36,7 +37,7 @@ public class AetherBox : IDalamudPlugin
     // internal DebugWindow? DebugWindow;
 
     internal static AetherBox? P;
-    internal static DalamudPluginInterface? pi;
+    internal static IDalamudPluginInterface? pi;
     public static Configuration? Config;
     public List<FeatureProvider> FeatureProviders = new List<FeatureProvider>();
     private FeatureProvider? provider;
@@ -48,7 +49,7 @@ public class AetherBox : IDalamudPlugin
     [PluginService]
     public static IAddonLifecycle? AddonLifecycle { get; private set; }
 
-    public AetherBox(DalamudPluginInterface pluginInterface)
+    public AetherBox(IDalamudPluginInterface pluginInterface)
     {
         P = this;
         pi = pluginInterface;
@@ -247,7 +248,7 @@ public class AetherBox : IDalamudPlugin
     /// </summary>
     /// <param name="imageName"></param>
     /// <returns></returns>
-    public static Dalamud.Interface.Internal.IDalamudTextureWrap? LoadImage(string imageName)
+    public static Dalamud.Interface.Textures.TextureWraps.IDalamudTextureWrap? LoadImage(string imageName)
     {
         var imagesDirectory = Path.Combine(pi?.AssemblyLocation.Directory?.FullName!);
         var imagePath = Path.Combine(imagesDirectory, imageName);
@@ -258,7 +259,7 @@ public class AetherBox : IDalamudPlugin
             {
                 if (pi != null)
                 {
-                    return pi.UiBuilder.LoadImage(imagePath);
+                    return IUiBuilder.LoadImage(imagePath);
                 }
                 else
                 {

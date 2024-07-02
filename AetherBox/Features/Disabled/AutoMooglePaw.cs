@@ -5,7 +5,7 @@ using Dalamud.Game.Addon.Lifecycle;
 using Dalamud.Game.Addon.Lifecycle.AddonArgTypes;
 using Dalamud.Game.ClientState.Keys;
 using Dalamud.Game.ClientState.Objects.Types;
-using Dalamud.Interface.Internal.Notifications;
+using Dalamud.Interface.Textures.TextureWraps;
 using Dalamud.Plugin.Services;
 using ECommons;
 using ECommons.Automation;

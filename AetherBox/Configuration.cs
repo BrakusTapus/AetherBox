@@ -14,13 +14,13 @@ public class Configuration : IPluginConfiguration
     public bool ShowDebugFeatures;
 
     [NonSerialized]
-    private DalamudPluginInterface pluginInterface;
+    private IDalamudPluginInterface pluginInterface;
 
     public DebugConfig Debugging = new DebugConfig();
 
     public int Version { get; set; }
 
-    public void Initialize(DalamudPluginInterface pluginInterface)
+    public void Initialize(IDalamudPluginInterface pluginInterface)
     {
         this.pluginInterface = pluginInterface;
     }
